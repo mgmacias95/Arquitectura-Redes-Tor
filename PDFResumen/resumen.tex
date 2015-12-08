@@ -112,10 +112,17 @@
 \section{¿Qué es \textit{Tor}?}
 Según \cite{deftor}, ``la red Tor es un grupo de servidores operativos voluntarios que permiten a las personas mejorar su privacidad y seguridad en Internet''. Esto quiere decir que una conexión a través de Tor nunca será directa, sino que pasará por estos servidores voluntarios para que no se pueda saber quién manda el paquete ni a dónde va dirigido. Además, Tor también se define como ``una efectiva herramienta para la elusión de la censura, permitiendo a sus usuarios acceder a contenido que de otra forma se encontraría bloqueado.''
 
-\subsection{¿Por qué es \textit{Tor} más seguro que otras herramientas?}
+\subsection{¿Por qué es \textit{Tor} protege mejor la privacidad que otras herramientas?}
 Tal y como se explica en \cite{deftor}, usando Tor nos protegemos contra el ``análisis de tráfico''. Aunque el \textit{payload} de los paquetes que enviamos a través de la red se encuentre encriptado, la cabecera normalmente no suele estarlo ya que se necesita para dirigir el paquete. Ésta cabecera facilita a los ``sniffers'' muchísima información sobre lo que estamos haciendo ya que incluye información como el ``host'' emisor, el ``host'' destino, el tamaño, el puerto al que va dirigido, etc.
 
-¿La solución? Usar una red distribuida y anónima.
+Así, tal y como se indica en \cite{protectionstor}, Tor defiende la privacidad en tres sentidos:
+\begin{enumerate}[$\bullet$]
+    \item Evita que servicios tales como páginas webs (entre otros) sepan nuestra localización, la cual pueden usar para hacer una base de datos sobre nuestras costumbres e intereses. Con \textit{Tor} podemos elegir qué información compartimos y cuál no.
+    \item Evita el análisis de nuestro tráfico (que, por ejemplo, puede hacer nuestro proveedor de internet) viendo la información que compartimos y desde dónde. Y también nos permite acceder a sitios web bloqueados.
+    \item Tor dirige nuestra conexión por más de un \textit{relay}\footnote{Un \textit{relay} se refiere a cada servidor por el cual se envían nuestros paquetes.}, por lo que ningún \textit{relay} puede saber lo que hacemos. Esta arquitectura de \textit{relays} distribuidos (y que pertenecen a distintas personas/organizaciones) da mayor privacidad.
+\end{enumerate}
+
+Ahora bien, tal y como se aclara en \cite{anonymoustor}, usar Tor no es sinónimo de ser completamente anónimo en internet, pues lo único que protege Tor es la ruta de los paquetes que enviamos y no su contenido. Por lo que si, por ejemplo, nos conectamos a \textit{Facebook} desde Tor, \textit{Facebook} no sabrá desde dónde nos estamos conectando pero sí que sabrá nuestra identidad.
 
 \section{¿Cómo mantiene \textit{Tor} el anonimato?}
 
