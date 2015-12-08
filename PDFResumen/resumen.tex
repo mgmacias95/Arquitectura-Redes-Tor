@@ -115,7 +115,7 @@ Según \cite{deftor}, ``la red Tor es un grupo de servidores operativos voluntar
 
 El anonimato en \textit{Tor} se mantiene distribuyendo los paquetes que enviamos y recibimos por una gran cantidad de puntos distribuidos por internet, antes de llegar al destino, en vez de hacer una conexión directa entre el origen y el destino. Los paquetes de datos seguirán un camino aleatorio entre los distintos ``relevos'' que existen en la red de Tor, que eliminan nuestras $huellas$, para que en ningún punto del camino que toma el paquete se pueda saber de dónde viene el paquete y a dónde va.
 
-Para crear un camino en la red privada de Tor, se crea un circuito de conexiones encriptadas a través de los ``relevos'' de la red.
+Para crear un camino en la red privada de Tor, se crea un circuito incremental de conexiones encriptadas a través de los ``relevos'' de la red. Los incrementos del circuito se hacen de uno en uno cada vez, y cada punto del circuito sólo sabe de qué relevo viene el paquete, y a qué relevo se lo tiene que dar. El cliente aporta un conjunto de llaves diferentes para encriptar el mensaje para cada punto del circuito para asegurarse de que en cada punto del circuito no se pueda seguir el paquete.
 
 \section{Arquitectura}
 
