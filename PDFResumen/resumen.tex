@@ -103,6 +103,7 @@
 
 %Definimos autor y título
 \title{\Huge Arquitectura de las Redes \textit{Tor}}
+\author{\Large Marta Gómez Macías y Braulio Vargas López}
 
 \begin{document}
 \renewcommand{\tablename}{Tabla}
@@ -110,6 +111,11 @@
 
 \section{¿Qué es \textit{Tor}?}
 Según \cite{deftor}, ``la red Tor es un grupo de servidores operativos voluntarios que permiten a las personas mejorar su privacidad y seguridad en Internet''. Esto quiere decir que una conexión a través de Tor nunca será directa, sino que pasará por estos servidores voluntarios para que no se pueda saber quién manda el paquete ni a dónde va dirigido. Además, Tor también se define como ``una efectiva herramienta para la elusión de la censura, permitiendo a sus usuarios acceder a contenido que de otra forma se encontraría bloqueado.''
+
+\subsection{¿Por qué es \textit{Tor} más seguro que otras herramientas?}
+Tal y como se explica en \cite{deftor}, usando Tor nos protegemos contra el ``análisis de tráfico''. Aunque el \textit{payload} de los paquetes que enviamos a través de la red se encuentre encriptado, la cabecera normalmente no suele estarlo ya que se necesita para dirigir el paquete. Ésta cabecera facilita a los ``sniffers'' muchísima información sobre lo que estamos haciendo ya que incluye información como el ``host'' emisor, el ``host'' destino, el tamaño, el puerto al que va dirigido, etc.
+
+¿La solución? Usar una red distribuida y anónima.
 
 \section{¿Cómo mantiene \textit{Tor} el anonimato?}
 
