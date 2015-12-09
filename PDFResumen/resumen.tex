@@ -160,8 +160,20 @@ Por eficiencia, el mismo circuito tiene una vida de 10 minutos más o menos. Par
 \end{figure} 
 
 \section{Arquitectura}
+En la sección ``The Tor Design'' de \cite{design}, encontramos una descripción detallada de la arquitectura de \textit{Tor}. Un paquete Tor tiene exactamente 512 bytes y está compuesto por una cabecera y un payload. 
 
-Tor solo funciona con flujos TCP y puede ser usado con cualquier aplicación with SOCKS support % Traducir al español plis
+En la \hyperref[paquete]{Figura \ref*{paquete}} vemos una representación gráfica de un paquete Tor. La cabecera incluye tanto el identificador del circuito (que indica a qué circuito pertenece el paquete) como un comando que describe qué hacer con el payload. Según sea dicho comando, los paquetes pueden ser tanto de \textbf{control} como de \textbf{relay}. Un paquete de control debe ser interpretado por el nodo que lo recibe y sirve para operar con el circuito y uno de relay, sólo contiene datos.
+
+Los paquetes \textit{relay} tienen una cabecera adicional antes del payload. Ésta cabecera contiene el \textit{streamID}, un \textit{checksum} para poder hacer una comprobación de integridad, la longitud del payload y un comando \textit{relay}, que puede tomar valores para operar tanto con el stream de datos como con el circuito y para hacer un control de congestión.
+
+\begin{figure}[!h]
+    \centering
+    \input{paquete.tex}
+    \caption{Arquitectura de un paquete Tor}
+    \label{paquete}
+\end{figure}
+
+Los dos tipos de cabeceras estudiados se encriptan y desencriptan en cada nodo del circuito usando el algoritmo de encriptación AES con 128-bits.
 
 \section{Protocolo}
 
