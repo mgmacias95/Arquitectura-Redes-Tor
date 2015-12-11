@@ -124,7 +124,7 @@ Así, tal y como se indica en \cite{protectionstor}, Tor defiende la privacidad 
 
 Ahora bien, tal y como se aclara en \cite{anonymoustor}, usar Tor no es sinónimo de ser completamente anónimo en internet, pues lo único que protege Tor es la ruta de los paquetes que enviamos y no su contenido. Por lo que si, por ejemplo, nos conectamos a \textit{Facebook} desde Tor, \textit{Facebook} no sabrá desde dónde nos estamos conectando pero sí que sabrá nuestra identidad.
 
-\section{¿Cómo mantiene \textit{Tor} el anonimato?}
+\section{Arquitectura de Tor}
 
 El anonimato en \textit{Tor} se mantiene distribuyendo los paquetes que enviamos y recibimos por una gran cantidad de puntos distribuidos por internet, antes de llegar al destino, en vez de hacer una conexión directa entre el origen y el destino. Los paquetes de datos seguirán un camino aleatorio entre los distintos ``relevos'' que existen en la red de Tor, que eliminan nuestras $huellas$, para que en ningún punto del camino que toma el paquete se pueda saber de dónde viene el paquete y a dónde va.
 
@@ -159,7 +159,8 @@ Por eficiencia, el mismo circuito tiene una vida de 10 minutos más o menos. Par
     \label{htw}
 \end{figure} 
 
-\section{Arquitectura}
+\section{Protocolo}
+\subsection{Estructura de un paquete}
 En la sección ``The Tor Design'' de \cite{design}, encontramos una descripción detallada de la arquitectura de \textit{Tor}. Un paquete Tor tiene exactamente 512 bytes y está compuesto por una cabecera y un payload. 
 
 En la \hyperref[paquete]{Figura \ref*{paquete}} vemos una representación gráfica de un paquete Tor. La cabecera incluye tanto el identificador del circuito (que indica a qué circuito pertenece el paquete) como un comando que describe qué hacer con el payload. Según sea dicho comando, los paquetes pueden ser tanto de \textbf{control} como de \textbf{relay}. Un paquete de control debe ser interpretado por el nodo que lo recibe y sirve para operar con el circuito y uno de relay, sólo contiene datos.
@@ -175,7 +176,9 @@ Los paquetes \textit{relay} tienen una cabecera adicional antes del payload. És
 
 Los dos tipos de cabeceras estudiados se encriptan y desencriptan en cada nodo del circuito usando el algoritmo de encriptación AES con 128-bits.
 
-\section{Protocolo}
+\includegraphics[width=1\textwidth]{comunicaciones}
+
+\subsection{Protección de claves}
 
 \section{Ejemplo con Wireshark}
 
