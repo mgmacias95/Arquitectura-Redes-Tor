@@ -158,6 +158,19 @@ Tor solo funciona con flujos TCP y puede ser usado con cualquier aplicación wit
 
 \section{Protocolo}
 
+El protocolo de Tor se basa en una serie de protocolos seguros y parámetros de seguridad para la comunicación y envío de información. Es decir, es un protocolo \textit{End-to-End encryption}, en el que los datos se encriptan para poder enviarlos a través de un canal vulnerable, hasta que llegan al destinatario, donde puede ser desencriptado.
+
+Para ello utiliza lo siguiente:
+
+\begin{description}
+    \item [Cifrado de \textit{stream}:] En este caso, cifra el \textit{stream} de datos mediante el algoritmo $AES-128~bits$
+    \item [Cifrado de llave pública:] Para ello, utiliza claves $RSA$ con 1024-$bits$ (y un exponente fijo de 65537).
+    \item [Protocolo Diffie-Hellman:] consiste en un protocolo criptográfico para establecer claves entre dos partes que no han tenido contacto previo, a través de un canal inseguro y anónimamente. Este protocolo consiste en coger un número primo al azar conococido, es decir público, y un número perteneciente al anillo formado por el primo inferior que será privado. Entonces, ambas partes hacen operaciones matemáticas con estos números que incluyen la exponenciación y se pasan los resultados. Ambas partes, con los números que disponen son capaces de llegar a la misma solución o clave.
+    \item [Función Hash:] se usa para hacer el digest de los datos. Para ello utiliza el algoritmo SHA-1.
+\end{description}
+
+El tráfico que fluye a través del circuito, se envía en celdas de tamaño fijo, envueltas por una clave simétrica en cada nodo y enviada al siguiente nodo del circuito. 
+
 \section{Ejemplo con Wireshark}
 
 \bibliography{resumen.bib} %archivo citas.bib que contiene las entradas 
