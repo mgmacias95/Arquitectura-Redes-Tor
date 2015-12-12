@@ -193,6 +193,29 @@ Una vez realizado el handshake y se han intercambiado lo scertificados, se debe 
 
 Una vez que la conexión TLS ha sido establecida, ambas partes se envían los paquetes de forma secuencial, protegidos por la conexión TLS y los correspondientes cifrados de los nodos.
 
+Una vez explicado esto, vamos a ver un ejemplo de conexión, usando la \hyperref[comunicaciones]{Figura \ref*{comunicaciones}}. En ella podemos ver como el usuario quiere realizar una conexión con un website.
+
+Para ello, se realizan varios pasos:
+\begin{enumerate}
+    \item Lo primero que hará el cliente será descargarse la lista de nodos Tor de un servidor que almacena este directorio.
+    \item Tras esto, coge un primer nodo (o relay) al azar para comenzar a construir el circuito. A través de un tunel TLS, realiza el $handshake$ con el servidor y el intercambio de claves con el protocolo Diffie-Hellman, y establecen la clave. Tras esto, el cliente vuelve a realizar una extensión del circuito, siendo el primer relay del circuito quien realiza la conexión. De esta forma, el segundo relay sólo conoce al primer relay, sin saber nada del cliente. Al establecer el $handshake$ con el pirmer relay, el cliente también obtiene la clave para el cifrado entre el primer y segundo relay. En este caso, se da por finalizada la construcción del circuito.
+    \item A continuación, el cliente solicita una conexión a un $website$ en el puerto 80. Esta solicitud es cifrada por el propio cliente con la clave del primer relay, y con la clave del segundo, creando unas capas criptográficas, simulando las capas de una cebolla, como las que se pueden ver en la \hyperref[cebollas]{Figura \ref*{cebollas}} y se le envía al primer relay.
+    
+    \begin{figure}[!h]
+        \centering
+        \includegraphics[width=0.6\textwidth]{Onion}
+        \caption{\textit{Onion diagram}, según \cite{cebollas}.}
+        \label{cebollas}
+    \end{figure}
+
+    \item Una vez en el primer relay, se descifra la primera capa del cifrado con su clave y se le envía al segundo relay, el cual quitará la capa que queda y pasará el mensaje sin cifrar al website. Este es el único momento en el que los datos no estarán cifrados, como se ve en la \hyperref[htw2]{Figura \ref*{htw2}}.
+
+    \item Tras esto, el servidor responde la petición del segundo relay y este obtiene los datos del $website$. Después, los cifra con su clave y se los pasa al relay anterior, comenzando a crear las capas otra vez.
+
+    \item Al llegar al primer relay, este se vuelve a cifrar con su clave y se le pasa al cliente, que al tener todas las claves, es capaz de descifrar el mensaje y obtener los datos del $website$.
+
+\end{enumerate}
+
 \subsection{Estructura de un paquete}
 En la sección ``The Tor Design'' de \cite{design}, encontramos una descripción detallada de la arquitectura de \textit{Tor}. Un paquete Tor tiene exactamente 512 bytes y está compuesto por una cabecera y un payload. 
 
@@ -208,8 +231,12 @@ Los paquetes \textit{relay} tienen una cabecera adicional antes del payload. És
 \end{figure}
 
 Los dos tipos de cabeceras estudiados se encriptan y desencriptan en cada nodo del circuito usando el algoritmo de encriptación AES con 128-bits.
-
-\includegraphics[width=1\textwidth]{comunicaciones}
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=1\textwidth]{comunicaciones}
+    \caption{Ejemplo de una conexión usando Tor.}
+    \label{comunicacions}
+\end{figure}
 
 \section{Servicios ocultos}
 En \cite{hiddenservices} encontramos una explicación acerca de los \textbf{servicios ocultos} en Tor. Un \textit{servicio oculto} es un servicio, como por ejemplo una página web o un servicio de mensajería instantánea, que funciona sin tener una dirección IP pública. Para ello, se usan los \textit{rendezvous points} de Tor.
