@@ -193,6 +193,13 @@ Una vez realizado el handshake y se han intercambiado lo scertificados, se debe 
 
 Una vez que la conexión TLS ha sido establecida, ambas partes se envían los paquetes de forma secuencial, protegidos por la conexión TLS y los correspondientes cifrados de los nodos.
 
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=1\textwidth]{comunicaciones}
+    \caption{Ejemplo de una conexión usando Tor.}
+    \label{comunicaciones}
+\end{figure}
+
 Una vez explicado esto, vamos a ver un ejemplo de conexión, usando la \hyperref[comunicaciones]{Figura \ref*{comunicaciones}}. En ella podemos ver como el usuario quiere realizar una conexión con un website.
 
 Para ello, se realizan varios pasos:
@@ -231,12 +238,6 @@ Los paquetes \textit{relay} tienen una cabecera adicional antes del payload. És
 \end{figure}
 
 Los dos tipos de cabeceras estudiados se encriptan y desencriptan en cada nodo del circuito usando el algoritmo de encriptación AES con 128-bits.
-\begin{figure}[!h]
-    \centering
-    \includegraphics[width=1\textwidth]{comunicaciones}
-    \caption{Ejemplo de una conexión usando Tor.}
-    \label{comunicaciones}
-\end{figure}
 
 \section{Servicios ocultos}
 En \cite{hiddenservices} encontramos una explicación acerca de los \textbf{servicios ocultos} en Tor. Un \textit{servicio oculto} es un servicio, como por ejemplo una página web o un servicio de mensajería instantánea, que funciona sin tener una dirección IP pública. Para ello, se usan los \textit{rendezvous points} de Tor.
