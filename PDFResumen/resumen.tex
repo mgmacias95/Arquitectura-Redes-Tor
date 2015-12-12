@@ -250,6 +250,23 @@ Una vez preparados el punto \textit{rendezvous} y el descriptor, tal y como se a
     \label{ths4}
 \end{figure}
 
+El servicio oculto desencripta el mensaje de introducción del cliente y encuentra así tanto la dirección del punto \textit{rendezvous} como el secreto ``one-time''. Entonces, crea un circuito hacia el punto \textit{rendezvous} y le envía el secreto ``one-time'' (\hyperref[ths5]{Figura \ref*{ths5}}). Es muy importante que el servicio oculto se atenga al mismo conjunto de \textit{guardias de entrada}\footnote{Según \cite{entryguards}, los guardias de entrada se usan para evitar que un atacante controle o pueda sacar información controlando relays. Los usuarios seleccionan unos pocos relays al azar y son siempre los primeros que usan al acceder a la red Tor.} a la hora de crear nuevos circuitos ya que si no un atacante podría obtener la IP del servicio oculto obligándolo a crear nuevos circuitos y esperando a que el servicio oculto escoja el relay controlado por él.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{THS-5}
+    \caption{El servicio oculto desencripta el mensaje de introducción y se conecta al punto de quedada usando el secreto ``one-time'' que ha establecido el cliente.}
+    \label{ths5}
+\end{figure}
+
+Por último, el punto \textit{rendezvous} notifica al cliente de que la conexión con el servidor ha ido bien y ambos empiezan a comunicarse usando los circuitos que habían hecho hacia el punto \textit{rendezvous}, que acúa como un relay más en la comunicación (\hyperref[ths6]{Figura \ref*{ths6}}). El servicio oculto no usa el circuito que estableció con el nodo introducción para que dicho nodo no parezca el responsable del servicio oculto. 
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{THS-6}
+    \caption{El punto de quedada notifica al cliente de que la conexión con el servicio oculto ha sido exitosa y ambos comienzan su comunicación de forma exitosa.}
+    \label{ths6}
+\end{figure}
 
 \section{Ejemplo con Wireshark}
 
