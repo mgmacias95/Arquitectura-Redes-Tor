@@ -109,6 +109,8 @@
 \renewcommand{\tablename}{Tabla}
 \maketitle
 
+\tableofcontents
+
 \section{¿Qué es \textit{Tor}?}
 Según \cite{deftor}, ``la red Tor es un grupo de servidores operativos voluntarios que permiten a las personas mejorar su privacidad y seguridad en Internet''. Esto quiere decir que una conexión a través de Tor nunca será directa, sino que pasará por estos servidores voluntarios para que no se pueda saber quién manda el paquete ni a dónde va dirigido. Además, Tor también se define como ``una efectiva herramienta para la elusión de la censura, permitiendo a sus usuarios acceder a contenido que de otra forma se encontraría bloqueado.''
 
@@ -179,6 +181,47 @@ Los dos tipos de cabeceras estudiados se encriptan y desencriptan en cada nodo d
 \includegraphics[width=1\textwidth]{comunicaciones}
 
 \subsection{Protección de claves}
+
+\section{Servicios ocultos}
+En \cite{hiddenservices} encontramos una explicación acerca de los \textbf{servicios ocultos} en Tor. Un \textit{servicio oculto} es un servicio, como por ejemplo una página web o un servicio de mensajería instantánea, que funciona sin tener una dirección IP pública. Para ello, se usan los \textit{rendezvous points} de Tor.
+
+En primer lugar, un servicio oculto debe advertir de su presencia en la red Tor. Para ello, tal y como se ve en la \hyperref[ths1]{Figura \ref*{ths1}}, escoge aleatoriamente unos cuantos relays, construye circuitos (no conexiones directas) hacia ellos y les pide actuar como \textit{introduction points} proporcionándoles su clave pública. Gracias a que usamos un circuito Tor y no una conexión directa, no se podrá asociar un \textit{introduction point} con la dirección IP del servicio oculto.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{THS-1}
+    \caption{El servicio oculto, a través de circuitos Tor, da su clave pública a los relays que aleatoriamente ha escogido como \textit{introduction points}}
+    \label{ths1}
+\end{figure}
+
+Tras esto, como se ve en la \hyperref[ths2]{Figura \ref*{ths2}}, el servicio oculto construye un \textit{descriptor de servicio oculto}, que contiene su clave pública y un resumen de cada punto de introducción y lo firma con su clave privada. Cuando los clientes pidan la dirección \texttt{XYZ.onion}, donde \textit{XYZ} es un nombre con 16 caracteres derivado de la clave pública del servidor, accederán al descriptor de servicio oculto. El hecho de que el nombre del servicio sea generado automáticamente por un derivado de su clave pública asegura a todo el que se comunique con él que están hablando con el servicio correcto. Es decir, sirve como verificación.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{THS-2}
+    \caption{El servicio oculto, construye su descriptor de servicio oculto y lo sube a la base de datos.}
+    \label{ths2}
+\end{figure}
+
+Cuando un cliente quiere conectarse a un servicio oculto concreto necesita saber su dirección \texttt{XYZ.onion}. Una vez sabida, descarga de la tabla hash el descriptor del servicio para saber la clave pública y el conjunto de puntos de introducción. También debe escoger un relay aleatoriamente para pedirle que actue como punto \textit{rendezvous} contándole un secreto ``one-time'' (\hyperref[ths3]{Figura \ref*{ths3}}).
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{THS-3}
+    \caption{Cuando el cliente quiere conectarse, descarga el descriptor correspondiente a XYZ.onion de la base de datos y establece un punto de quedada.}
+    \label{ths3}
+\end{figure}
+
+Una vez preparados el punto \textit{rendezvous} y el descriptor, tal y como se aprecia en la \hyperref[ths4]{Figura \ref*{ths4}} el cliente ensambla un mensaje de introducción encriptado con la clave pública del servidor que incluye el punto \textit{rendezvous} y el secreto ``one-time'' y lo envía a los puntos de introducción, pidiéndoles que lo envíen al servicio oculto. Como todo ésto se hace a través de una red Tor, es imposible relacionar la identidad del cliente con el mensaje de introducción.
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{THS-4}
+    \caption{El cliente le comunica al servicio oculto el punto de quedada y el secreto ``one-time''}
+    \label{ths4}
+\end{figure}
+
+
 
 \section{Ejemplo con Wireshark}
 
