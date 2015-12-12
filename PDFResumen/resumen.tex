@@ -112,12 +112,19 @@
 \section{¿Qué es \textit{Tor}?}
 Según \cite{deftor}, ``la red Tor es un grupo de servidores operativos voluntarios que permiten a las personas mejorar su privacidad y seguridad en Internet''. Esto quiere decir que una conexión a través de Tor nunca será directa, sino que pasará por estos servidores voluntarios para que no se pueda saber quién manda el paquete ni a dónde va dirigido. Además, Tor también se define como ``una efectiva herramienta para la elusión de la censura, permitiendo a sus usuarios acceder a contenido que de otra forma se encontraría bloqueado.''
 
-\subsection{¿Por qué es \textit{Tor} más seguro que otras herramientas?}
+\subsection{¿Por qué es \textit{Tor} protege mejor la privacidad que otras herramientas?}
 Tal y como se explica en \cite{deftor}, usando Tor nos protegemos contra el ``análisis de tráfico''. Aunque el \textit{payload} de los paquetes que enviamos a través de la red se encuentre encriptado, la cabecera normalmente no suele estarlo ya que se necesita para dirigir el paquete. Ésta cabecera facilita a los ``sniffers'' muchísima información sobre lo que estamos haciendo ya que incluye información como el ``host'' emisor, el ``host'' destino, el tamaño, el puerto al que va dirigido, etc.
 
-¿La solución? Usar una red distribuida y anónima.
+Así, tal y como se indica en \cite{protectionstor}, Tor defiende la privacidad en tres sentidos:
+\begin{enumerate}[$\bullet$]
+    \item Evita que servicios tales como páginas webs (entre otros) sepan nuestra localización, la cual pueden usar para hacer una base de datos sobre nuestras costumbres e intereses. Con \textit{Tor} podemos elegir qué información compartimos y cuál no.
+    \item Evita el análisis de nuestro tráfico (que, por ejemplo, puede hacer nuestro proveedor de internet) viendo la información que compartimos y desde dónde. Y también nos permite acceder a sitios web bloqueados.
+    \item Tor dirige nuestra conexión por más de un \textit{relay}\footnote{Un \textit{relay} se refiere a cada servidor por el cual se envían nuestros paquetes.}, por lo que ningún \textit{relay} puede saber lo que hacemos. Esta arquitectura de \textit{relays} distribuidos (y que pertenecen a distintas personas/organizaciones) da mayor privacidad.
+\end{enumerate}
 
-\section{¿Cómo mantiene \textit{Tor} el anonimato?}
+Ahora bien, tal y como se aclara en \cite{anonymoustor}, usar Tor no es sinónimo de ser completamente anónimo en internet, pues lo único que protege Tor es la ruta de los paquetes que enviamos y no su contenido. Por lo que si, por ejemplo, nos conectamos a \textit{Facebook} desde Tor, \textit{Facebook} no sabrá desde dónde nos estamos conectando pero sí que sabrá nuestra identidad.
+
+\section{Arquitectura de Tor}
 
 El anonimato en \textit{Tor} se mantiene distribuyendo los paquetes que enviamos y recibimos por una gran cantidad de puntos distribuidos por internet, antes de llegar al destino, en vez de hacer una conexión directa entre el origen y el destino. Los paquetes de datos seguirán un camino aleatorio entre los distintos ``relevos'' que existen en la red de Tor, que eliminan nuestras $huellas$, para que en ningún punto del camino que toma el paquete se pueda saber de dónde viene el paquete y a dónde va.
 
@@ -152,11 +159,26 @@ Por eficiencia, el mismo circuito tiene una vida de 10 minutos más o menos. Par
     \label{htw}
 \end{figure} 
 
-\section{Arquitectura}
-
-Tor solo funciona con flujos TCP y puede ser usado con cualquier aplicación with SOCKS support % Traducir al español plis
-
 \section{Protocolo}
+\subsection{Estructura de un paquete}
+En la sección ``The Tor Design'' de \cite{design}, encontramos una descripción detallada de la arquitectura de \textit{Tor}. Un paquete Tor tiene exactamente 512 bytes y está compuesto por una cabecera y un payload. 
+
+En la \hyperref[paquete]{Figura \ref*{paquete}} vemos una representación gráfica de un paquete Tor. La cabecera incluye tanto el identificador del circuito (que indica a qué circuito pertenece el paquete) como un comando que describe qué hacer con el payload. Según sea dicho comando, los paquetes pueden ser tanto de \textbf{control} como de \textbf{relay}. Un paquete de control debe ser interpretado por el nodo que lo recibe y sirve para operar con el circuito y uno de relay, sólo contiene datos.
+
+Los paquetes \textit{relay} tienen una cabecera adicional antes del payload. Ésta cabecera contiene el \textit{streamID}, un \textit{checksum} para poder hacer una comprobación de integridad, la longitud del payload y un comando \textit{relay}, que puede tomar valores para operar tanto con el stream de datos como con el circuito y para hacer un control de congestión.
+
+\begin{figure}[!h]
+    \centering
+    \input{paquete.tex}
+    \caption{Arquitectura de un paquete Tor}
+    \label{paquete}
+\end{figure}
+
+Los dos tipos de cabeceras estudiados se encriptan y desencriptan en cada nodo del circuito usando el algoritmo de encriptación AES con 128-bits.
+
+\includegraphics[width=1\textwidth]{comunicaciones}
+
+\subsection{Protección de claves}
 
 El protocolo de Tor se basa en una serie de protocolos seguros y parámetros de seguridad para la comunicación y envío de información. Es decir, es un protocolo \textit{End-to-End encryption}, en el que los datos se encriptan para poder enviarlos a través de un canal vulnerable, hasta que llegan al destinatario, donde puede ser desencriptado.
 
