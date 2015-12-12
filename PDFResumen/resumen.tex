@@ -162,7 +162,7 @@ Por eficiencia, el mismo circuito tiene una vida de 10 minutos más o menos. Par
 \end{figure} 
 
 \section{Protocolo}
-El protocolo de Tor se basa en una serie de protocolos seguros y parámetros de seguridad para la comunicación y envío de información. Es decir, es un protocolo \textit{End-to-End encryption}, en el que los datos se encriptan para poder enviarlos a través de un canal vulnerable, hasta que llegan al destinatario, donde puede ser desencriptado.
+El protocolo de Tor se basa en una serie de protocolos seguros y parámetros de seguridad para la comunicación y envío de información, como se ve en \cite{torproc}. Es decir, es un protocolo \textit{End-to-End encryption}, en el que los datos se encriptan para poder enviarlos a través de un canal vulnerable, hasta que llegan al destinatario, donde puede ser desencriptado.
 
 Para ello utiliza lo siguiente:
 
@@ -174,6 +174,24 @@ Para ello utiliza lo siguiente:
 \end{description}
 
 El tráfico que fluye a través del circuito, se envía en celdas de tamaño fijo, envueltas por una clave simétrica en cada nodo y enviada al siguiente nodo del circuito. 
+
+\subsubsection{¿Cómo se realiza la conexión entre los nodos?}
+
+La conexión entre dos nodos, o entre un cliente y un nodo, se realiza usando una conexión \textit{TLS/SSLv3} para la identificación de los enlaces y la encriptación del tráfico. Para la realización del ``\textit{handshake}'' entre los nodos, existen tres maneras diferentes de hacerlo:
+
+\begin{enumerate}
+    \item \textbf{``\textit{Certificates-up-front}'' o ``\textit{the v1 handshake}''}: el que inicia la conexión y el que responde se intercambian una cadena de certifcados como parte de su $handshake$. El que inicia la conexión envía dos certificados. En el primer certificado, envía una clave pública de corta duración y en el segundo se envía su clave identificadora.
+
+    \item \textbf{``\textit{Renegotiation}'' o ``\textit{the v2 handshake}''}: en este caso sólo se envía un único certificado por parte del que responde la solicitud de conexión y el solicitante realiza la conexión, inicia una renegociación $TLS$\footnote{esto consiste en volver a repetir la ``negociación'' del intercambio de claves.}. A partir de aquí, se realizan el mismo intercambio que en la versión 1.
+
+    \item \textbf{``\textit{In-protocol}'' o ``\textit{the v3 handshake}''}: el que inicia la conexión no envía ningún certificado, y el que responde envía un único certificado. Entonces se escogerá una \textit{ciphersuite} entre el cliente y el servidor, en la que vendrá indicado el algoritmo para el establecimiento de la clave, el algoritmo de autenticación de la clave y los algoritmos para hacer el digest, como se puede ver en \cite{ciphersuite}.
+\end{enumerate}
+
+En ninguno de los handshakes anteriores se debe contener información que pueda identificar al host o al nodo. A la hora de realizar una renegociación, las ciphersuites se eligen aquellas ciphersuites y extensiones TLS que puedan mimetizar aquellas que puedan ser usadas por un navegador popular.
+
+Una vez realizado el handshake y se han intercambiado lo scertificados, se debe comprobar que la identity key es la esperada, tanto durante el inicio de la conexión, que la aporta el certificado, o durante la conexión que viene en el paquete. Si esta clave no es la real, se cierra inmediatamente la conexión.
+
+Una vez que la conexión TLS ha sido establecida, ambas partes se envían los paquetes de forma secuencial, protegidos por la conexión TLS y los correspondientes cifrados de los nodos.
 
 \subsection{Estructura de un paquete}
 En la sección ``The Tor Design'' de \cite{design}, encontramos una descripción detallada de la arquitectura de \textit{Tor}. Un paquete Tor tiene exactamente 512 bytes y está compuesto por una cabecera y un payload. 
