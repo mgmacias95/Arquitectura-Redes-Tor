@@ -197,7 +197,7 @@ Una vez explicado esto, vamos a ver un ejemplo de conexión, usando la \hyperref
 
 Para ello, se realizan varios pasos:
 \begin{enumerate}
-    \item Lo primero que hará el cliente será descargarse la lista de nodos Tor de un servidor que almacena este directorio.
+    \item Lo primero que hará el cliente será descargarse la lista de nodos Tor de un servidor que almacena este directorio, como podemos ver en \cite{deftor} y \cite{mit}.
     \item Tras esto, coge un primer nodo (o relay) al azar para comenzar a construir el circuito. A través de un tunel TLS, realiza el $handshake$ con el servidor y el intercambio de claves con el protocolo Diffie-Hellman, y establecen la clave. Tras esto, el cliente vuelve a realizar una extensión del circuito, siendo el primer relay del circuito quien realiza la conexión. De esta forma, el segundo relay sólo conoce al primer relay, sin saber nada del cliente. Al establecer el $handshake$ con el pirmer relay, el cliente también obtiene la clave para el cifrado entre el primer y segundo relay. En este caso, se da por finalizada la construcción del circuito.
     \item A continuación, el cliente solicita una conexión a un $website$ en el puerto 80. Esta solicitud es cifrada por el propio cliente con la clave del primer relay, y con la clave del segundo, creando unas capas criptográficas, simulando las capas de una cebolla, como las que se pueden ver en la \hyperref[cebollas]{Figura \ref*{cebollas}} y se le envía al primer relay.
     
