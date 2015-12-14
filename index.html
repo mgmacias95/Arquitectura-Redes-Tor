@@ -45,9 +45,148 @@
 					<h3>Marta Gómez Macías y Braulio Vargas</h3>
 				</section>
 
+				<section>
+					<h2>Índice</h2>
+					<ol>
+						<li>¿Qué es Tor?</li>
+						<ul>
+							<li>¿Por qué Tor protege mejor la privacidad que otras herramientas?</li>
+						</ul>
+						<li>Arquitectura de Tor</li>
+						<li>Protocolo</li>
+						<ul>
+							<li>¿Cómo se realiza la conexión entre los nodos?</li>
+							<li>Estructura de un paquete</li>
+						</ul>
+						<li>Servicios ocultos</li>
+						<li>Ejemplo con Wireshark</li>
+					</ol>
+				</section>
 				
 				<section>
-					<h1>FIN</h1>
+					<h2>¿Qué es Tor?</h2>
+					<blockquote cite="https://www.torproject.org/about/overview.html.en">
+						&ldquo;La red Tor es un grupo de servidores operativos voluntarios que permiten a las personas mejorar su privacidad y seguridad en Internet.&rdquo;
+					</blockquote>
+					<blockquote cite="https://www.torproject.org/about/overview.html.en">
+						&ldquo;Una efectiva herramienta para la elusión de la censura, permitiendo a sus usuarios acceder a contenido que de otra forma se encontraría bloqueado.&rdquo;
+					</blockquote>
+				</section>
+
+				<section>
+					<h3>¿Por qué Tor protege mejor la privacidad que otras herramientas?</h3>
+					<p class="fragment">Evita que los servicios a los que accedemos sepan nuestra localización.</p>
+					<p class="fragment">Evita el análisis de nuestro tráfico</p>
+					<p class="fragment">Al usar una arquitectura de relays distribuidos, ninguno puede saber lo que hacemos.</p>
+
+					<p class="fragment">¡OJO! ¡usar Tor no es sinónimo de ser anónimo en Internet!</p>
+				</section>
+
+				<section>
+					<h2>Arquitectura de Tor</h2>
+					<img src="./PDFResumen/htw1.png"/>
+				</section>
+				<section>
+					<h2>Arquitectura de Tor</h2>
+					<img src="./PDFResumen/htw2.png" />
+				</section>
+				<section>
+					<h2>Arquitectura de Tor</h2>
+					<img src="./PDFResumen/htw3.png"/>
+				</section>
+
+				<section>
+					<h2>Protocolo</h2>
+					<p class="fragment">El protocolo de Tor se basa en varios protocolos seguros y parámetros de seguridad. Es un protocolo End-to-End encryption.</p>
+					<p class="fragment">Para poder garantizar seguridad a través de un canal vulnerable se usa:</p>
+					<ul>
+						<li class="fragment">Cifrado de stream, usando algoritmo AES de 128 bits</li>
+						<li class="fragment">Cifrado de llave pública, usando claves RSA con 1024 bits</li>
+						<li class="fragment">Protocolo Diffie-Hellman</li>
+						<li class="fragment">Función Hash (digest de datos), usando el algoritmo SHA-1</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>¿Cómo se realiza la conexión entre nodos?</h3>
+					<p class="fragment">La conexión entre nodos se realiza usando TLS/SSLv3.</p>
+					<p class="fragment">El handshake se puede realizar de tres formas distintas:</p>
+					<ul>
+						<li class="fragment">Certificates-up-front o the v1 handshake</li>
+						<li class="fragment">Renegotiation o the b2 handshake</li>
+						<li class="fragment">In-protocol o the v3 handshake</li>
+					</ul>
+					<p class="fragment">En el handshake no se debe dar ninguna información que identifica al host.</p>
+					<p class="fragment">Se debe comprobar que la identity key es la esperada o si no, se cerrará la conexión.</p>
+				</section>
+
+				<section>
+					<img src="./PDFResumen/comunicaciones.png" />
+				</section>
+
+				<section>
+					<img src="./PDFResumen/Onion.png" />
+				</section>
+
+				<section>
+					<h3>Estructura de un paquete</h3>
+					<img src="./PDFResumen/paquete.png" />
+				</section>
+
+				<section>
+					<h2>Servicios Ocultos</h2>
+					<img src="./PDFResumen/THS-1.png"/>
+				</section>
+
+				<section>
+					<h2>Servicios Ocultos</h2>
+					<img src="./PDFResumen/THS-2.png"/>
+				</section>
+
+				<section>
+					<h2>Servicios Ocultos</h2>
+					<img src="./PDFResumen/THS-3.png"/>
+				</section>
+
+				<section>
+					<h2>Servicios Ocultos</h2>
+					<img src="./PDFResumen/THS-4.png"/>
+				</section>
+
+				<section>
+					<h2>Servicios Ocultos</h2>
+					<img src="./PDFResumen/THS-5.png"/>
+				</section>
+
+				<section>
+					<h2>Servicios Ocultos</h2>
+					<img src="./PDFResumen/THS-6.png"/>
+				</section>
+
+				<section>
+					<h2>Referencias</h2>
+					<p style="text-align:left">[1] R. Dingledine, N. Mathewson and P. Syverson, Tor: The second-generation onion router. URL: <a href="http://www.onion-router.net/Publications/tor-design.pdf" target="_blank"> http://www.onion-router.net/Publications/tor-design.pdf</a> </p>
+					<p style="text-align:left">[2] Mozilla Foundation, TLS Cipher Suite Discovery. URL: <a href="https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/TLS_Cipher_Suite_Discovery" target="_blank">https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/TLS_Cipher_Suite_Discovery</a></p>
+					<p style="text-align:left">[3] MIT, How Tor Works. URL: <a target="_blank" href="www.technologyreview.com/video/413186/how-tor-works/">www.technologyreview.com/video/413186/how-tor-works/</a></p>
+					<p style="text-align:left">[4] Tor Project, Hidden Service Protocol. URL: <a target="_blank" href="https://www.torproject.org/docs/hidden-services.html.en">https://www.torproject.org/docs/hidden-services.html.en</a></p>
+					<p style="text-align:left">[5] Tor Project, Overview. URL: <a href="https://www.torproject.org/about/overview.html.en" target="_blank">https://www.torproject.org/about/overview.html.en</a> </p>
+				</section>
+
+				<section>
+					<h2>Referencias</h2>
+					<p style="text-align:left">[6] Tor Project, So I'm Totally Anonymous if I use Tor? URL: <a href="https://www.torproject.org/docs/faq.html.en#AmITotallyAnonymous" target="_blank">https://www.torproject.org/docs/faq.html.en#AmITotallyAnonymous</a></p>
+
+					<p style="text-align:left">[7] Tor Project, Tor Protocol Specification. URL: <a href="https://gitweb.torproject.org/torspec.git/tree/tor-spec.txt" target="_blank">https://gitweb.torproject.org/torspec.git/tree/tor-spec.txt</a></p>
+
+					<p style="text-align:left">[8] Tor Project, What are entry guards? URL: <a href="https://www.torproject.org/docs/faq#EntryGuards" target="_blank">https://www.torproject.org/docs/faq#EntryGuards</a></p>
+
+					<p style="text-align:left">[9] Tor Project, What protections does Tor provice? URL: <a href="https://www.torproject.org/docs/faq#EntryGuards" target="_blank">https://www.torproject.org/docs/faq#EntryGuards</a></p>
+
+					<p style="text-align:left">[10] Wikipedia, Onion Routing - onion diagram. URL: <a href="https://en.wikipedia.org/wiki/Onion_routing#/media/File:Onion_diagram.svg" target="_blank">https://en.wikipedia.org/wiki/Onion_routing#/media/File:Onion_diagram.svg</a></p>
+				</section>
+
+				<section>
+					<h1>Y ahora la demostración con Wireshark...</h1>
 				</section>
 			</div>
 		</div>
